@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noteit/Post.dart';
 import 'Profile.dart';
 import 'AddPost.dart';
 import 'Ranking.dart';
@@ -107,8 +108,15 @@ class HomePage extends StatelessWidget {
           Expanded(
             child: Container(
               color: Colors.grey[300],
-              child: const Center(
-                child: Text('Home content goes here'),
+              child: Center(
+                child: ListView(
+                  children: [
+                    Post(),
+                    Post(),
+                    Post(),
+                    Post()
+                  ],
+                ),
               ),
             ),
           ),
