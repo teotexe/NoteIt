@@ -10,28 +10,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          Container(
-            // Add button and move it on the left
-            margin: EdgeInsets.only(
-                right: MediaQuery.of(context).size.width * 0.06),
-            child: const Icon(Icons.book),
-          ),
-          Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              margin: EdgeInsets.only(
-                  right: MediaQuery.of(context).size.width * 0.02),
-              child: TextField(
-                style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  hintText: 'Search',
-                  hintStyle: TextStyle(color: Colors.white),
-                  contentPadding: EdgeInsets.all(16),
-                ),
-                // On submit, navigate
-                onSubmitted: (value) {},
-              )),
-        ],
+        title: const Text('Home'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,9 +34,9 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/ranking');
+          Navigator.pushNamed(context, '/addPost');
         },
-        child: const Icon(Icons.emoji_events),
+        child: const Icon(Icons.add),
       ),
     );
   }

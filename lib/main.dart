@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'feature_notes/presentation/add_post_page.dart';
 import 'feature_notes/presentation/home_page.dart';
+import 'feature_notes/presentation/search_posts_page.dart';
 import 'feature_profile/presentation/profile_page.dart';
 import 'feature_ranking/presentation/ranking_page.dart';
 
@@ -17,7 +18,9 @@ class MyApp extends StatelessWidget {
       routes: {
         '/profile': (context) => ProfilePage(),
         '/addPost': (context) => AddPost(),
-        '/ranking': (context) => Ranking(),
+        '/ranking': (context) => RankingPage(),
+        '/savedPosts': (context) => Placeholder(),
+
       },
     );
   }
@@ -38,6 +41,9 @@ class _AppStateState extends State<AppState> {
           _currentIndex), // Add this line to display the corresponding body based on the selected tab
 
       bottomNavigationBar: BottomNavigationBar(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         onTap: (index) {
           // Handle navigation when a bottom navigation bar item is tapped
@@ -46,11 +52,10 @@ class _AppStateState extends State<AppState> {
           });
         },
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add Post'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search posts'),
+          BottomNavigationBarItem(icon: Icon(Icons.emoji_events), label: 'Ranking'),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favorite"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
@@ -61,13 +66,14 @@ class _AppStateState extends State<AppState> {
   Widget _getBody(int currentIndex) {
     switch (currentIndex) {
       case 0:
-        // Return the home page body
         return HomePage();
       case 1:
-        // Return the add post page body
-        return AddPost();
+        return SearchPage();
       case 2:
-        // Return the profile page body
+        return RankingPage();
+      case 3:
+        return Placeholder();
+      case 4:
         return ProfilePage();
       default:
         return Container();
