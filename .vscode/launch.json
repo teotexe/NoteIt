@@ -8,21 +8,21 @@
             "name": "NoteIt",
             "request": "launch",
             "type": "dart",
-            "program": "lib/Home.dart",
+            "program": "lib/main.dart",
         },
         {
             "name": "NoteIt (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile",
-            "program": "lib/Home.dart",
+            "program": "lib/main.dart",
         },
         {
             "name": "NoteIt (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",
-            "program": "lib/Home.dart",
+            "program": "lib/main.dart",
         }
     ]
 }

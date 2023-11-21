@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noteit/feature_notes/domain/model/post.dart';
+import 'package:noteit/feature_notes/presentation/add_post_page.dart';
 
 import 'post_item.dart';
 
@@ -34,7 +35,10 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/addPost');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddPost()),
+          );
         },
         child: const Icon(Icons.add),
       ),

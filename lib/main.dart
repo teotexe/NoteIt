@@ -5,6 +5,7 @@ import 'feature_notes/presentation/home_page.dart';
 import 'feature_notes/presentation/search_posts_page.dart';
 import 'feature_profile/presentation/profile_page.dart';
 import 'feature_ranking/presentation/ranking_page.dart';
+import 'feature_notes/presentation/favorites_posts_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,15 +15,45 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: AppState(),
-      routes: {
-        '/profile': (context) => ProfilePage(),
-        '/addPost': (context) => AddPost(),
-        '/ranking': (context) => RankingPage(),
-        '/savedPosts': (context) => Placeholder(),
-
-      },
-    );
+        theme: ThemeData(
+          // Modify the colors as per your requirement
+          primaryColor: Color.fromARGB(255, 134, 11, 11), // App bar color
+          primaryColorDark:
+              Color.fromARGB(255, 134, 11, 11), // Status bar color
+          hintColor:
+              Color.fromARGB(255, 134, 11, 11), // Floating action button color
+          scaffoldBackgroundColor: Colors.white, // Background color
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.black),
+          ),
+          navigationBarTheme: const NavigationBarThemeData(
+            backgroundColor: Colors.white,
+            indicatorColor: Colors.black,
+          ),
+          buttonTheme: ButtonThemeData(
+            buttonColor: Color.fromARGB(255, 134, 11, 11), // Button color
+            textTheme: ButtonTextTheme.primary, // Button text color
+          ),
+          iconTheme: const IconThemeData(
+            color: Color.fromARGB(255, 134, 11, 11), // Icon color
+          ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Color.fromARGB(255, 134, 11, 11), // FAB color
+          ),
+          iconButtonTheme: IconButtonThemeData(
+              style: ButtonStyle(
+            iconColor: MaterialStateColor.resolveWith(
+                (states) => Color.fromARGB(255, 134, 11, 11)),
+          )),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: Colors.white,
+            selectedItemColor: Color.fromARGB(255, 134, 11, 11),
+            unselectedItemColor: Colors.grey,
+          ),
+        ),
+        home: AppState());
   }
 }
 
@@ -53,9 +84,12 @@ class _AppStateState extends State<AppState> {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search posts'),
-          BottomNavigationBarItem(icon: Icon(Icons.emoji_events), label: 'Ranking'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favorite"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.search), label: 'Search posts'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.emoji_events), label: 'Ranking'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: "Favorite"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
@@ -72,7 +106,7 @@ class _AppStateState extends State<AppState> {
       case 2:
         return RankingPage();
       case 3:
-        return Placeholder();
+        return FavoritesPage();
       case 4:
         return ProfilePage();
       default:
