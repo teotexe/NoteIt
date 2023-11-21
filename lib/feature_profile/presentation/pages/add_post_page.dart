@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
 import 'dart:async';
-import 'file_item.dart';
+import 'package:noteit/feature_profile/presentation/items/add_file_item.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -90,7 +90,7 @@ class _AddPostState extends State<AddPost> {
                 _files.isNotEmpty
                     ? CarouselSlider(
                         items: _files.map((file) {
-                          return FileWidget(file: file);
+                          return AddFileWidget(file: file);
                         }).toList(),
                         options: CarouselOptions(
                           height: 200.0,

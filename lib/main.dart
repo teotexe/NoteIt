@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'feature_notes/presentation/add_post_page.dart';
-import 'feature_notes/presentation/home_page.dart';
-import 'feature_notes/presentation/search_posts_page.dart';
-import 'feature_profile/presentation/profile_page.dart';
+import 'feature_profile/presentation/pages/add_post_page.dart';
+import 'feature_notes/presentation/pages/home_page.dart';
+import 'feature_notes/presentation/pages/search_posts_page.dart';
+import 'feature_notes/presentation/pages/home_page.dart';
+import 'feature_profile/presentation/pages/add_post_page.dart';
+import 'feature_profile/presentation/pages/profile_page.dart';
 import 'feature_ranking/presentation/ranking_page.dart';
-import 'feature_notes/presentation/favorites_posts_page.dart';
+import 'feature_favorites/presentatiion/favorites_posts_page.dart';
 
 void main() {
   runApp(MyApp());

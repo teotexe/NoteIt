@@ -8,10 +8,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:image/image.dart' as img;
 import 'package:carousel_slider/carousel_slider.dart';
 
-class FileWidget extends StatelessWidget {
+class AddFileWidget extends StatelessWidget {
   final File file;
 
-  FileWidget({required this.file});
+  AddFileWidget({required this.file});
 
   bool isImage(File file) {
     try {
