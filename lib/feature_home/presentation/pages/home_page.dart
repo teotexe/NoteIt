@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:noteit/feature_notes/domain/model/post.dart';
-import 'package:noteit/feature_notes/presentation/items/home_post_item.dart';
+import 'package:noteit/feature_home/domain/entities/post.dart';
+import 'package:noteit/feature_home/presentation/items/home_post_item.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,10 +20,10 @@ class HomePage extends StatelessWidget {
                 child: Center(
                   child: ListView(
                     children: [
-                      PostItem(post: PostModel()),
-                      PostItem(post: PostModel()),
-                      PostItem(post: PostModel()),
-                      PostItem(post: PostModel())
+                      PostItem(post: PostEntity()),
+                      PostItem(post: PostEntity()),
+                      PostItem(post: PostEntity()),
+                      PostItem(post: PostEntity())
                     ],
                   ),
                 ),

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-
-import 'feature_profile/presentation/pages/add_post_page.dart';
-import 'feature_notes/presentation/pages/home_page.dart';
-import 'feature_notes/presentation/pages/search_posts_page.dart';
-import 'feature_notes/presentation/pages/home_page.dart';
-import 'feature_profile/presentation/pages/add_post_page.dart';
-import 'feature_profile/presentation/pages/profile_page.dart';
+import 'feature_profile/add_post_page.dart';
+import 'feature_home/presentation/pages/home_page.dart';
+import 'feature_search/presentation/pages/search_posts_page.dart';
+import 'feature_home/presentation/pages/home_page.dart';
+import 'feature_profile/add_post_page.dart';
+import 'feature_profile/profile_page.dart';
 import 'feature_ranking/presentation/ranking_page.dart';
 import 'feature_favorites/presentatiion/favorites_posts_page.dart';
+import 'local/isar_service.dart';
 
 void main() {
   runApp(MyApp());
 }
+
+final IsarService isarService = IsarService();
 
 class MyApp extends StatelessWidget {
   @override

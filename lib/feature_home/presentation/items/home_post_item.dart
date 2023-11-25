@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:noteit/feature_notes/domain/model/post.dart';
+import 'package:noteit/feature_home/domain/entities/post.dart';
 
 class PostItem extends StatelessWidget {
-  PostModel post;
+  PostEntity post;
   PostItem({super.key, required this.post});
 
   @override

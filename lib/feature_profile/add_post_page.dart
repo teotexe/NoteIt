@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
 import 'dart:async';
-import 'package:noteit/feature_profile/presentation/items/add_file_item.dart';
+import 'package:noteit/feature_profile/file_widget.dart';
+import 'package:noteit/feature_profile/profile_page.dart';
+import 'package:noteit/entities/post.dart';
+import 'package:noteit/main.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -99,6 +102,18 @@ class _AddPostState extends State<AddPost> {
                         ),
                       )
                     : Container(),
+                ElevatedButton(
+                  onPressed: () {
+                    PostEntity post = PostEntity(
+                        title: _title,
+                        description: _body,
+                        files: _files.map((file) => file.path).toList());
+                    isarService.addPost(post);
+                    // isarService.deleteAllPosts();
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Aggiungi'),
+                ),
               ],
             ),
           ),
