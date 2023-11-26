@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'feature_profile/add_post_page.dart';
 import 'feature_home/presentation/pages/home_page.dart';
 import 'feature_search/presentation/pages/search_posts_page.dart';
 import 'feature_home/presentation/pages/home_page.dart';
-import 'feature_profile/add_post_page.dart';
-import 'feature_profile/profile_page.dart';
+import 'feature_profile/newpost_page/add_post_page.dart';
+import 'feature_profile/profile_page/profile_page.dart';
 import 'feature_ranking/presentation/ranking_page.dart';
 import 'feature_favorites/presentatiion/favorites_posts_page.dart';
+import 'package:noteit/config/theme/app_theme.dart';
 import 'local/isar_service.dart';
 
 void main() {
@@ -19,45 +19,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-          // Modify the colors as per your requirement
-          primaryColor: Color.fromARGB(255, 134, 11, 11), // App bar color
-          primaryColorDark:
-              Color.fromARGB(255, 134, 11, 11), // Status bar color
-          hintColor:
-              Color.fromARGB(255, 134, 11, 11), // Floating action button color
-          scaffoldBackgroundColor: Colors.white, // Background color
-          appBarTheme: AppBarTheme(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            iconTheme: IconThemeData(color: Colors.black),
-          ),
-          navigationBarTheme: const NavigationBarThemeData(
-            backgroundColor: Colors.white,
-            indicatorColor: Colors.black,
-          ),
-          buttonTheme: ButtonThemeData(
-            buttonColor: Color.fromARGB(255, 134, 11, 11), // Button color
-            textTheme: ButtonTextTheme.primary, // Button text color
-          ),
-          iconTheme: const IconThemeData(
-            color: Color.fromARGB(255, 134, 11, 11), // Icon color
-          ),
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: Color.fromARGB(255, 134, 11, 11), // FAB color
-          ),
-          iconButtonTheme: IconButtonThemeData(
-              style: ButtonStyle(
-            iconColor: MaterialStateColor.resolveWith(
-                (states) => Color.fromARGB(255, 134, 11, 11)),
-          )),
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            backgroundColor: Colors.white,
-            selectedItemColor: Color.fromARGB(255, 134, 11, 11),
-            unselectedItemColor: Colors.grey,
-          ),
-        ),
-        home: AppState());
+      theme: AppTheme.getTheme(), // Use the theme from the separate file
+      home: AppState(),
+    );
   }
 }
 

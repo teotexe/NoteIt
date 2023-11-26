@@ -26,6 +26,13 @@ class IsarService {
     return isar.postEntitys.where().findAll();
   }
 
+  Stream<List<PostEntity>> getPostsStream() {
+    final isar = this.isar;
+    return isar.asStream().map((isar) {
+      return isar.postEntitys.where().findAllSync();
+    });
+  }
+
   Future<void> deletePost(PostEntity post) async {
     final isar = await this.isar;
     await isar.writeTxn(() async {

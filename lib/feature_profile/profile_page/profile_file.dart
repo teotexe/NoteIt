@@ -37,23 +37,45 @@ class AddFileWidget extends StatelessWidget {
     return isImage(file)
         ? GestureDetector(
             onTap: () => _showFullScreenImage(context),
-            child: Image.file(
-              file,
-              height: 100.0,
-              width: double.infinity,
-              fit: BoxFit.cover,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.white, // Set the border color to white
+                  width: MediaQuery.of(context).size.width * 0.04,
+                ),
+              ),
+              child: Image.file(
+                file,
+                height: MediaQuery.of(context).size.height * 0.24,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
           )
         : Container(
-            height: 100.0,
-            width: double.infinity,
-            color: Colors.grey[300],
-            child: Center(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.white,
+                width: MediaQuery.of(context).size.width * 0.04,
+              ),
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                  width: MediaQuery.of(context).size.width * 0.01,
+                ),
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              height: MediaQuery.of(context).size.height * 0.24,
+              width: double.infinity,
+              alignment: Alignment.center,
               child: Text(
                 file.path.split('/').last,
                 style: TextStyle(fontSize: 16.0),
               ),
-              // Download icon
+              // Icona di download
             ),
           );
   }
