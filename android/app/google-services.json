@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "136739623204",
+    "firebase_url": "https://mywebsite-e772b-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "mywebsite-e772b",
+    "storage_bucket": "mywebsite-e772b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:136739623204:android:1045d566470282744ea3b1",
+        "android_client_info": {
+          "package_name": "com.example.noteit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBikP_YCmUNCjbwiGBE31UlgCsPisJZJIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

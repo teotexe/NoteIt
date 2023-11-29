@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
+import 'config/theme/app_theme.dart';
+import 'entities/credentials.dart';
 import 'feature_home/presentation/pages/home_page.dart';
+import 'feature_login/login_page.dart';
 import 'feature_search/presentation/pages/search_posts_page.dart';
 import 'feature_home/presentation/pages/home_page.dart';
 import 'feature_profile/newpost_page/add_post_page.dart';
 import 'feature_profile/profile_page/profile_page.dart';
 import 'feature_ranking/presentation/ranking_page.dart';
 import 'feature_favorites/presentatiion/favorites_posts_page.dart';
-import 'package:noteit/config/theme/app_theme.dart';
+import 'package:noteit/core/constants/constants.dart';
 import 'local/isar_service.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // credentialsList = [];
+  // isarService.cleanDB();
   runApp(MyApp());
 }
-
-final IsarService isarService = IsarService();
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: AppTheme.getTheme(), // Use the theme from the separate file
-      home: AppState(),
+      theme: AppTheme.getTheme(),
+      home: LoginPage(),
     );
   }
 }

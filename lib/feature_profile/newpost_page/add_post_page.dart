@@ -5,9 +5,12 @@ import 'dart:async';
 import 'package:noteit/feature_profile/newpost_page/file_widget.dart';
 import 'package:noteit/feature_profile/profile_page/profile_page.dart';
 import 'package:noteit/entities/post.dart';
+import 'package:noteit/core/constants/constants.dart';
 import 'package:noteit/main.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_picker/file_picker.dart';
+
+import '../../config/theme/app_theme.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({super.key});
@@ -23,46 +26,50 @@ class _AddPostState extends State<AddPost> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData combinedTheme = Theme.of(context).copyWith(
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Color.fromARGB(255, 134, 11, 11)),
+        toolbarHeight: 100,
+      ),
+      scaffoldBackgroundColor: Colors.white,
+
+      // Merge AppTheme properties
+      primaryColor: AppTheme.myCustomColor,
+      primaryColorDark: AppTheme.myCustomColor,
+      hintColor: AppTheme.myCustomColor,
+    );
+
     return Theme(
-        data: ThemeData(
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            iconTheme: IconThemeData(color: Color.fromARGB(255, 134, 11, 11)),
-            toolbarHeight: 100,
-          ),
-          scaffoldBackgroundColor: Colors.white,
-        ),
-        child: Scaffold(
-          appBar: AppBar(
-            actions: [
-              IconButton(
-                onPressed: () {
-                  addFile();
-                },
-                icon: Transform.translate(
-                  offset: Offset(-20.0,
-                      0.0), // Adjust the offset to move the icon horizontally
-                  child: Transform.rotate(
-                    angle: 30 *
-                        3.14159265359 /
-                        180, // Rotate the icon by 45 degrees (in radians)
-                    child: const Icon(Icons.attach_file),
-                  ),
+      data: combinedTheme,
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {
+                addFile();
+              },
+              icon: Transform.translate(
+                offset: Offset(-20.0, 0.0),
+                child: Transform.rotate(
+                  angle: 30 * 3.14159265359 / 180,
+                  child: const Icon(Icons.attach_file),
                 ),
-                iconSize: 62,
               ),
-            ],
-            title: Text('Add Post'),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
+              iconSize: 62,
+            ),
+          ],
+          title: Text('Add Post'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
                   style: const TextStyle(fontSize: 48),
-                  // Set text style to match hint style
                   decoration: const InputDecoration(
                     enabledBorder: InputBorder.none,
                     hintText: 'Titolo',
@@ -76,7 +83,7 @@ class _AddPostState extends State<AddPost> {
                 ),
                 TextFormField(
                   style: const TextStyle(fontSize: 24),
-                  // Set text style to match hint style
+                  maxLines: null, // Allows the text field to expand vertically
                   decoration: const InputDecoration(
                     enabledBorder: InputBorder.none,
                     hintText: 'Scrivi qualcosa',
@@ -88,7 +95,6 @@ class _AddPostState extends State<AddPost> {
                     });
                   },
                 ),
-                // Leave some space (Proportional to screen size)
                 SizedBox(height: MediaQuery.of(context).size.height * 0.08),
                 _files.isNotEmpty
                     ? CarouselSlider(
@@ -109,7 +115,6 @@ class _AddPostState extends State<AddPost> {
                         description: _body,
                         files: _files.map((file) => file.path).toList());
                     isarService.addPost(post);
-                    // isarService.deleteAllPosts();
                     Navigator.pop(context);
                   },
                   child: const Text('Aggiungi'),
@@ -117,7 +122,9 @@ class _AddPostState extends State<AddPost> {
               ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Future addFile() async {

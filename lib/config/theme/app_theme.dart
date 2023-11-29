@@ -1,16 +1,14 @@
-// theme.dart
-
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  static Color myCustomColor = Color.fromARGB(255, 134, 11, 11);
+
   static ThemeData getTheme() {
     return ThemeData(
-      // Modify the colors as per your requirement
-      primaryColor: Color.fromARGB(255, 134, 11, 11), // App bar color
-      primaryColorDark: Color.fromARGB(255, 134, 11, 11), // Status bar color
-      hintColor:
-          Color.fromARGB(255, 134, 11, 11), // Floating action button color
-      scaffoldBackgroundColor: Colors.white, // Background color
+      primaryColor: myCustomColor,
+      primaryColorDark: myCustomColor,
+      hintColor: myCustomColor,
+      scaffoldBackgroundColor: Colors.white,
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -21,24 +19,43 @@ class AppTheme {
         indicatorColor: Colors.black,
       ),
       buttonTheme: ButtonThemeData(
-        buttonColor: Color.fromARGB(255, 134, 11, 11), // Button color
-        textTheme: ButtonTextTheme.primary, // Button text color
+        buttonColor: myCustomColor,
+        textTheme: ButtonTextTheme.primary,
       ),
       iconTheme: const IconThemeData(
-        color: Color.fromARGB(255, 134, 11, 11), // Icon color
+        color: Color.fromARGB(255, 134, 11, 11),
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: Color.fromARGB(255, 134, 11, 11), // FAB color
+        backgroundColor: Color.fromARGB(255, 134, 11, 11),
       ),
       iconButtonTheme: IconButtonThemeData(
-          style: ButtonStyle(
-        iconColor: MaterialStateColor.resolveWith(
-            (states) => Color.fromARGB(255, 134, 11, 11)),
-      )),
+        style: ButtonStyle(
+          iconColor: MaterialStateColor.resolveWith(
+            (states) => myCustomColor,
+          ),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateColor.resolveWith(
+            (states) => myCustomColor,
+          ),
+        ),
+      ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: Colors.white,
-        selectedItemColor: Color.fromARGB(255, 134, 11, 11),
+        selectedItemColor: myCustomColor,
         unselectedItemColor: Colors.grey,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: myCustomColor),
+        ),
+      ),
+      textTheme: TextTheme(
+        button: TextStyle(color: myCustomColor),
+        headline6: TextStyle(color: myCustomColor),
+        bodyText2: TextStyle(color: myCustomColor),
       ),
     );
   }

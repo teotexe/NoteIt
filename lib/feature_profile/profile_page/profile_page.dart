@@ -3,7 +3,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:noteit/config/theme/app_theme.dart';
 import 'package:noteit/entities/post.dart';
+import 'package:noteit/core/constants/constants.dart';
 import 'package:noteit/main.dart';
+import '../../feature_login/login_page.dart';
 import '../newpost_page/add_post_page.dart';
 import 'profile_file.dart';
 
@@ -27,11 +29,31 @@ class _ProfilePageState extends State<ProfilePage> {
     postsFuture = isarService.getPosts();
   }
 
+  void _logout() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+  }
+
+  String truncateText(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return '${text.substring(0, maxLength)}...';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile Page'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: _logout,
+          ),
+        ],
       ),
       body: RefreshIndicator(
         color: AppTheme.getTheme().primaryColor,
@@ -70,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.04),
                         Text(
-                          'Profile Name',
+                          '${username}',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
@@ -96,9 +118,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: Column(
                                   children: [
                                     ListTile(
-                                      title: Text(posts[startIndex].title),
-                                      subtitle:
-                                          Text(posts[startIndex].description),
+                                      title: Text(truncateText(
+                                          posts[startIndex].title,
+                                          10)), // Adjust the length as needed
+                                      subtitle: Text(truncateText(
+                                          posts[startIndex].description,
+                                          30)), // Adjust the length as needed
                                     ),
                                     posts[startIndex].files.isNotEmpty
                                         ? AddFileWidget(
@@ -123,9 +148,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: Column(
                                     children: [
                                       ListTile(
-                                        title: Text(posts[endIndex].title),
-                                        subtitle:
-                                            Text(posts[endIndex].description),
+                                        title: Text(truncateText(
+                                            posts[endIndex].title,
+                                            10)), // Adjust the length as needed
+                                        subtitle: Text(truncateText(
+                                            posts[endIndex].description,
+                                            30)), // Adjust the length as needed
                                       ),
                                       posts[endIndex].files.isNotEmpty
                                           ? AddFileWidget(
