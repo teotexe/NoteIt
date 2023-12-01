@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'config/theme/app_theme.dart';
-import 'entities/credentials.dart';
+import 'entities/user.dart';
 import 'feature_home/presentation/pages/home_page.dart';
 import 'feature_login/login_page.dart';
 import 'feature_search/presentation/pages/search_posts_page.dart';

@@ -111,6 +111,7 @@ class _AddPostState extends State<AddPost> {
                 ElevatedButton(
                   onPressed: () {
                     PostEntity post = PostEntity(
+                        username: username,
                         title: _title,
                         description: _body,
                         files: _files.map((file) => file.path).toList());

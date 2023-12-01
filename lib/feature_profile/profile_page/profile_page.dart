@@ -1,15 +1,15 @@
 import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:noteit/config/theme/app_theme.dart';
 import 'package:noteit/entities/post.dart';
 import 'package:noteit/core/constants/constants.dart';
 import 'package:noteit/main.dart';
+import '../../entities/user.dart';
 import '../../feature_login/login_page.dart';
 import '../newpost_page/add_post_page.dart';
 import 'profile_file.dart';
-
-late Future<List<PostEntity>> postsFuture;
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -21,6 +21,25 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       postsFuture = isarService.getPosts();
     });
+  }
+
+  void _changeProfilePicture() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      allowMultiple: false,
+    );
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+
+      // Update credentials
+      UserEntity credentials = UserEntity(username, password, file.path);
+      await isarService.saveCredentials(credentials);
+
+      setState(() {
+        profilePicture = file.path;
+      });
+    }
   }
 
   @override
@@ -81,22 +100,28 @@ class _ProfilePageState extends State<ProfilePage> {
                   // Top part for profile name and photo
                   Container(
                     padding: EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          radius: 50,
-                          // Add profile photo logic here
-                        ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.04),
-                        Text(
-                          '${username}',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                    child: InkWell(
+                      onTap: _changeProfilePicture,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundImage: FileImage(File(profilePicture)),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.04,
+                          ),
+                          Text(
+                            '${username}',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.04),

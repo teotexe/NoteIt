@@ -36,7 +36,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  # Image Picker
   file_picker: ^6.1.1
   image: ^3.0.1
   photo_view: ^0.14.0
@@ -44,6 +43,10 @@ dependencies:
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
   path_provider: ^2.1.1
+  firebase_core: ^2.24.0
+  firebase_storage: ^11.5.3
+  firebase_auth: ^4.15.0
+
 
 dev_dependencies:
   flutter_test:
