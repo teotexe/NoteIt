@@ -5,6 +5,7 @@ import '../../entities/user.dart';
 
 final IsarService isarService = IsarService();
 
+late Future<List<PostEntity>> userPostsFuture;
 late Future<List<PostEntity>> postsFuture;
 
 // Credentials

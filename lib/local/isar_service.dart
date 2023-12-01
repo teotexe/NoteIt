@@ -49,7 +49,7 @@ class IsarService {
     }
   }
 
-  Future<List<PostEntity>> getPosts() async {
+  Future<List<PostEntity>> getUserPosts() async {
     final isar = await this.isar;
     UserEntity? user = await getUser();
 
@@ -62,6 +62,12 @@ class IsarService {
     } else {
       return isar.postEntitys.where().findAll();
     }
+  }
+
+  // Get all posts
+  Future<List<PostEntity>> getAllPosts() async {
+    final isar = await this.isar;
+    return isar.postEntitys.where().findAll();
   }
 
   // Save credentials

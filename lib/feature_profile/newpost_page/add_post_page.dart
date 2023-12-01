@@ -9,7 +9,6 @@ import 'package:noteit/core/constants/constants.dart';
 import 'package:noteit/main.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_picker/file_picker.dart';
-
 import '../../config/theme/app_theme.dart';
 
 class AddPost extends StatefulWidget {
@@ -83,7 +82,7 @@ class _AddPostState extends State<AddPost> {
                 ),
                 TextFormField(
                   style: const TextStyle(fontSize: 24),
-                  maxLines: null, // Allows the text field to expand vertically
+                  maxLines: null,
                   decoration: const InputDecoration(
                     enabledBorder: InputBorder.none,
                     hintText: 'Scrivi qualcosa',
@@ -96,25 +95,15 @@ class _AddPostState extends State<AddPost> {
                   },
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.08),
-                _files.isNotEmpty
-                    ? CarouselSlider(
-                        items: _files.map((file) {
-                          return AddFileWidget(file: file);
-                        }).toList(),
-                        options: CarouselOptions(
-                          height: 200.0,
-                          enlargeCenterPage: true,
-                          enableInfiniteScroll: false,
-                        ),
-                      )
-                    : Container(),
+                AddFileWidget(files: _files),
                 ElevatedButton(
                   onPressed: () {
                     PostEntity post = PostEntity(
-                        username: username,
-                        title: _title,
-                        description: _body,
-                        files: _files.map((file) => file.path).toList());
+                      username: username,
+                      title: _title,
+                      description: _body,
+                      files: _files.map((file) => file.path).toList(),
+                    );
                     isarService.addPost(post);
                     Navigator.pop(context);
                   },

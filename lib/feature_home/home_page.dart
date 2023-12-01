@@ -1,58 +1,28 @@
 import 'dart:io';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:noteit/config/theme/app_theme.dart';
-import 'package:noteit/entities/post.dart';
-import 'package:noteit/core/constants/constants.dart';
-import 'package:noteit/main.dart';
-import '../../entities/user.dart';
-import '../../feature_login/login_page.dart';
-import '../newpost_page/add_post_page.dart';
-import 'profile_file.dart';
 
-class ProfilePage extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:noteit/feature_home/home_file.dart';
+
+import '../config/theme/app_theme.dart';
+import '../core/constants/constants.dart';
+import '../entities/post.dart';
+
+class HomePage extends StatefulWidget {
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  Future<void> _refresh() async {
-    setState(() {
-      userPostsFuture = isarService.getUserPosts();
-    });
-  }
-
-  void _changeProfilePicture() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      allowMultiple: false,
-    );
-
-    if (result != null) {
-      File file = File(result.files.single.path!);
-
-      // Update credentials
-      UserEntity credentials = UserEntity(username, password, file.path);
-      await isarService.saveCredentials(credentials);
-
-      setState(() {
-        profilePicture = file.path;
-      });
-    }
-  }
-
+class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    userPostsFuture = isarService.getUserPosts();
+    postsFuture = isarService.getAllPosts();
   }
 
-  void _logout() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
+  Future<void> _refresh() async {
+    setState(() {
+      postsFuture = isarService.getAllPosts();
+    });
   }
 
   String truncateText(String text, int maxLength) {
@@ -65,20 +35,11 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile Page'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: _logout,
-          ),
-        ],
-      ),
       body: RefreshIndicator(
         color: AppTheme.getTheme().primaryColor,
         onRefresh: _refresh,
         child: FutureBuilder<List<PostEntity>>(
-          future: userPostsFuture,
+          future: postsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -97,33 +58,6 @@ class _ProfilePageState extends State<ProfilePage> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Top part for profile name and photo
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    child: InkWell(
-                      onTap: _changeProfilePicture,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundImage: FileImage(File(profilePicture)),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.04,
-                          ),
-                          Text(
-                            '${username}',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                   Expanded(
                     child: ListView.builder(
@@ -200,15 +134,6 @@ class _ProfilePageState extends State<ProfilePage> {
             }
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddPost()),
-          );
-        },
-        child: const Icon(Icons.add),
       ),
     );
   }
