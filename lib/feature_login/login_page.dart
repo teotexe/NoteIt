@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:noteit/core/constants/constants.dart';
-import 'package:noteit/entities/user.dart';
+import 'package:NoteIt/core/constants/constants.dart';
+import 'package:NoteIt/entities/user.dart';
 
 import '../main.dart';
 

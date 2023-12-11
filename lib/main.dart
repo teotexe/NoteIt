@@ -8,7 +8,7 @@ import 'feature_profile/newpost_page/add_post_page.dart';
 import 'feature_profile/profile_page/profile_page.dart';
 import 'feature_ranking/presentation/ranking_page.dart';
 import 'feature_favorites/favorites_page.dart';
-import 'package:noteit/core/constants/constants.dart';
+import 'package:NoteIt/core/constants/constants.dart';
 import 'local/isar_service.dart';
 
 void main() {

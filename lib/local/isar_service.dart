@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
-import 'package:noteit/core/constants/constants.dart';
-import 'package:noteit/entities/post.dart';
+import 'package:NoteIt/core/constants/constants.dart';
+import 'package:NoteIt/entities/post.dart';
 import 'package:path_provider/path_provider.dart';
 import '../entities/user.dart';
 

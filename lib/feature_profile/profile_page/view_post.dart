@@ -2,9 +2,9 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:noteit/entities/post.dart';
-import 'package:noteit/config/theme/app_theme.dart';
-import 'package:noteit/feature_profile/profile_page/post_file_widget.dart';
+import 'package:NoteIt/entities/post.dart';
+import 'package:NoteIt/config/theme/app_theme.dart';
+import 'package:NoteIt/feature_profile/profile_page/post_file_widget.dart';
 
 import '../../core/constants/constants.dart';
 

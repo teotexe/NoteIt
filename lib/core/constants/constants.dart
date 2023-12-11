@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:noteit/local/isar_service.dart';
+import 'package:NoteIt/local/isar_service.dart';
 import '../../entities/post.dart';
 import '../../entities/user.dart';
 

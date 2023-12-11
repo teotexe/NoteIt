@@ -1,7 +1,7 @@
 import 'dart:io';
-import "package:noteit/feature_home/view_post.dart";
+import "package:NoteIt/feature_home/view_post.dart";
 import 'package:flutter/material.dart';
-import 'package:noteit/feature_home/home_file.dart';
+import 'package:NoteIt/feature_home/home_file.dart';
 import '../config/theme/app_theme.dart';
 import '../core/constants/constants.dart';
 import '../entities/post.dart';

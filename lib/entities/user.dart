@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:noteit/entities/post.dart';
+import 'package:NoteIt/entities/post.dart';
 part 'user.g.dart';
 
 @collection
