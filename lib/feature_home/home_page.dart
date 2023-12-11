@@ -1,8 +1,7 @@
 import 'dart:io';
-
+import "package:noteit/feature_home/view_post.dart";
 import 'package:flutter/material.dart';
 import 'package:noteit/feature_home/home_file.dart';
-
 import '../config/theme/app_theme.dart';
 import '../core/constants/constants.dart';
 import '../entities/post.dart';
@@ -23,6 +22,15 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       postsFuture = isarService.getAllPosts();
     });
+  }
+
+  void _viewPostDetails(PostEntity post) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ViewPostPage(post: post),
+      ),
+    );
   }
 
   String truncateText(String text, int maxLength) {
@@ -76,20 +84,54 @@ class _HomePageState extends State<HomePage> {
                                     MediaQuery.of(context).size.height * 0.4,
                                 child: Column(
                                   children: [
+                                    Text(
+                                      posts[startIndex].username,
+                                      style: TextStyle(
+                                        color: AppTheme.getTheme().primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                     ListTile(
-                                      title: Text(truncateText(
-                                          posts[startIndex].title,
-                                          10)), // Adjust the length as needed
-                                      subtitle: Text(truncateText(
-                                          posts[startIndex].description,
-                                          30)), // Adjust the length as needed
+                                      title: InkWell(
+                                        onTap: () {
+                                          _viewPostDetails(posts[startIndex]);
+                                        },
+                                        child: Text(
+                                          truncateText(
+                                              posts[startIndex].title, 10),
+                                        ),
+                                      ),
+                                      subtitle: InkWell(
+                                        onTap: () {
+                                          _viewPostDetails(posts[startIndex]);
+                                        },
+                                        child: Text(
+                                          posts[startIndex].files.isNotEmpty
+                                              ? truncateText(
+                                                  posts[startIndex].description,
+                                                  10)
+                                              : "",
+                                        ),
+                                      ),
                                     ),
                                     posts[startIndex].files.isNotEmpty
                                         ? AddFileWidget(
-                                            file: File(
-                                                posts[startIndex].files.first),
+                                            files: posts[startIndex]
+                                                .files
+                                                .map((e) => File(e))
+                                                .toList())
+                                        : InkWell(
+                                            onTap: () {
+                                              _viewPostDetails(
+                                                  posts[startIndex]);
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Text(truncateText(
+                                                  posts[startIndex].description,
+                                                  300)),
+                                            ),
                                           )
-                                        : Container(),
                                   ],
                                 ),
                               ),
@@ -106,20 +148,50 @@ class _HomePageState extends State<HomePage> {
                                       MediaQuery.of(context).size.height * 0.4,
                                   child: Column(
                                     children: [
+                                      Text(
+                                        posts[endIndex].username,
+                                        style: TextStyle(
+                                          color:
+                                              AppTheme.getTheme().primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                                       ListTile(
-                                        title: Text(truncateText(
-                                            posts[endIndex].title,
-                                            10)), // Adjust the length as needed
-                                        subtitle: Text(truncateText(
-                                            posts[endIndex].description,
-                                            30)), // Adjust the length as needed
+                                        title: InkWell(
+                                          onTap: () {
+                                            _viewPostDetails(posts[endIndex]);
+                                          },
+                                          child: Text(
+                                            truncateText(
+                                                posts[endIndex].title, 10),
+                                          ),
+                                        ), // Adjust the length as needed
+                                        subtitle: Text(
+                                          posts[startIndex].files.isNotEmpty
+                                              ? truncateText(
+                                                  posts[endIndex].description,
+                                                  10)
+                                              : "",
+                                        ),
                                       ),
                                       posts[endIndex].files.isNotEmpty
                                           ? AddFileWidget(
-                                              file: File(
-                                                  posts[endIndex].files.first),
+                                              files: posts[endIndex]
+                                                  .files
+                                                  .map((e) => File(e))
+                                                  .toList())
+                                          : InkWell(
+                                              onTap: () {
+                                                _viewPostDetails(
+                                                    posts[endIndex]);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.all(10.0),
+                                                child: Text(truncateText(
+                                                    posts[endIndex].description,
+                                                    300)),
+                                              ),
                                             )
-                                          : Container(),
                                     ],
                                   ),
                                 ),

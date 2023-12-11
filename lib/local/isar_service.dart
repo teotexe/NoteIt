@@ -49,6 +49,13 @@ class IsarService {
     }
   }
 
+  Future<void> deletePost(int Id) async {
+    final isar = await this.isar;
+    await isar.writeTxn(() async {
+      await isar.postEntitys.delete(Id);
+    });
+  }
+
   Future<List<PostEntity>> getUserPosts() async {
     final isar = await this.isar;
     UserEntity? user = await getUser();
@@ -82,9 +89,21 @@ class IsarService {
   // Delete credentials
   Future<void> deleteCredentials(int Id) async {
     final isar = await this.isar;
-    await isar.writeTxn(() async {
-      await isar.userEntitys.delete(Id);
-    });
+    // Remove all posts from user
+    UserEntity? user = await getUser();
+    if (user != null) {
+      await isar.writeTxn(() async {
+        await isar.postEntitys
+            .where()
+            .filter()
+            .usernameEqualTo(username)
+            .deleteAll();
+      });
+
+      await isar.writeTxn(() async {
+        await isar.userEntitys.delete(Id);
+      });
+    }
   }
 
   // Get credentials

@@ -98,6 +98,14 @@ class _AddPostState extends State<AddPost> {
                 AddFileWidget(files: _files),
                 ElevatedButton(
                   onPressed: () {
+                    if (_title.isEmpty && _body.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Please fill in at least one field'),
+                        ),
+                      );
+                      return;
+                    }
                     PostEntity post = PostEntity(
                       username: username,
                       title: _title,

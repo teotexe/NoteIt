@@ -2,9 +2,11 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:noteit/config/theme/app_theme.dart';
 import 'package:noteit/entities/post.dart';
 import 'package:noteit/core/constants/constants.dart';
+import 'package:noteit/feature_profile/profile_page/view_post.dart';
 import 'package:noteit/main.dart';
 import '../../entities/user.dart';
 import '../../feature_login/login_page.dart';
@@ -40,6 +42,15 @@ class _ProfilePageState extends State<ProfilePage> {
         profilePicture = file.path;
       });
     }
+  }
+
+  void _viewPostDetails(PostEntity post) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ViewPostPage(post: post),
+      ),
+    );
   }
 
   @override
@@ -106,10 +117,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundImage: FileImage(File(profilePicture)),
-                          ),
+                          profilePicture.isNotEmpty
+                              ? CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage:
+                                      FileImage(File(profilePicture)),
+                                )
+                              : CircleAvatar(
+                                  radius: 50, child: Icon(Icons.person)),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.04,
                           ),
@@ -143,19 +158,46 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: Column(
                                   children: [
                                     ListTile(
-                                      title: Text(truncateText(
-                                          posts[startIndex].title,
-                                          10)), // Adjust the length as needed
-                                      subtitle: Text(truncateText(
-                                          posts[startIndex].description,
-                                          30)), // Adjust the length as needed
+                                      title: InkWell(
+                                        onTap: () {
+                                          _viewPostDetails(posts[startIndex]);
+                                        },
+                                        child: Text(
+                                          truncateText(
+                                              posts[startIndex].title, 10),
+                                        ),
+                                      ),
+                                      subtitle: InkWell(
+                                        onTap: () {
+                                          _viewPostDetails(posts[startIndex]);
+                                        },
+                                        child: Text(
+                                          posts[startIndex].files.isNotEmpty
+                                              ? truncateText(
+                                                  posts[startIndex].description,
+                                                  10)
+                                              : "",
+                                        ),
+                                      ),
                                     ),
                                     posts[startIndex].files.isNotEmpty
                                         ? AddFileWidget(
-                                            file: File(
-                                                posts[startIndex].files.first),
+                                            files: posts[startIndex]
+                                                .files
+                                                .map((e) => File(e))
+                                                .toList())
+                                        : InkWell(
+                                            onTap: () {
+                                              _viewPostDetails(
+                                                  posts[startIndex]);
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Text(truncateText(
+                                                  posts[startIndex].description,
+                                                  300)),
+                                            ),
                                           )
-                                        : Container(),
                                   ],
                                 ),
                               ),
@@ -173,19 +215,41 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: Column(
                                     children: [
                                       ListTile(
-                                        title: Text(truncateText(
-                                            posts[endIndex].title,
-                                            10)), // Adjust the length as needed
-                                        subtitle: Text(truncateText(
-                                            posts[endIndex].description,
-                                            30)), // Adjust the length as needed
+                                        title: InkWell(
+                                          onTap: () {
+                                            _viewPostDetails(posts[endIndex]);
+                                          },
+                                          child: Text(
+                                            truncateText(
+                                                posts[endIndex].title, 10),
+                                          ),
+                                        ), // Adjust the length as needed
+                                        subtitle: Text(
+                                          posts[startIndex].files.isNotEmpty
+                                              ? truncateText(
+                                                  posts[endIndex].description,
+                                                  10)
+                                              : "",
+                                        ),
                                       ),
                                       posts[endIndex].files.isNotEmpty
                                           ? AddFileWidget(
-                                              file: File(
-                                                  posts[endIndex].files.first),
+                                              files: posts[endIndex]
+                                                  .files
+                                                  .map((e) => File(e))
+                                                  .toList())
+                                          : InkWell(
+                                              onTap: () {
+                                                _viewPostDetails(
+                                                    posts[endIndex]);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.all(10.0),
+                                                child: Text(truncateText(
+                                                    posts[endIndex].description,
+                                                    300)),
+                                              ),
                                             )
-                                          : Container(),
                                     ],
                                   ),
                                 ),

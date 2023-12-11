@@ -26,8 +26,8 @@ class AddFileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: MediaQuery.of(context).size.height * 0.2,
-        aspectRatio: 1.0,
+        height: 200.0,
+        aspectRatio: 2.0,
         enlargeCenterPage: true,
         enableInfiniteScroll: false,
       ),

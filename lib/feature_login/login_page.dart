@@ -182,16 +182,14 @@ class _LoginPageState extends State<LoginPage> {
                       password = _passwordController.text;
                       profilePicture = currProfilePicture;
                       // Check if username or password is empty
-                      if (username.isEmpty ||
-                          password.isEmpty ||
-                          profilePicture.isEmpty) {
+                      if (username.isEmpty || password.isEmpty) {
                         // Show an alert dialog
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text('Error'),
                             content: const Text(
-                                'Username or password cannot be empty or profile picture is not selected.'),
+                                'Username or password cannot be empty!'),
                             actions: [
                               TextButton(
                                 onPressed: () {
@@ -264,11 +262,16 @@ class _LoginPageState extends State<LoginPage> {
           value: i,
           child: Row(
             children: [
-              if (credentialsList[i].profilePicture.isNotEmpty)
-                CircleAvatar(
-                  backgroundImage:
-                      FileImage(File(credentialsList[i].profilePicture)),
-                ),
+              credentialsList[i].profilePicture.isNotEmpty
+                  ? CircleAvatar(
+                      radius: 15,
+                      backgroundImage:
+                          FileImage(File(credentialsList[i].profilePicture)),
+                    )
+                  : const CircleAvatar(
+                      radius: 15,
+                      child: Icon(Icons.person),
+                    ),
               const SizedBox(width: 8),
               Text('${credentialsList[i].username}'),
             ],
