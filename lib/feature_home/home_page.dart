@@ -69,134 +69,40 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: (posts.length / 2).ceil(),
+                      itemCount: posts.length,
                       itemBuilder: (context, index) {
-                        int startIndex = index * 2;
-                        int endIndex = (index * 2) + 1;
-                        return Row(
-                          children: [
-                            Expanded(
-                              flex: 0,
-                              child: Container(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.5 - 4,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      posts[startIndex].username,
-                                      style: TextStyle(
-                                        color: AppTheme.getTheme().primaryColor,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                        PostEntity post = posts[index];
+                        String firstPhoto =
+                            post.files.isNotEmpty ? post.files.first : '';
+                        return InkWell(
+                          onTap: () {
+                            _viewPostDetails(post);
+                          },
+                          child: Card(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                if (firstPhoto.isNotEmpty)
+                                  Image.file(
+                                    File(firstPhoto),
+                                    fit: BoxFit.cover,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
+                                  ),
+                                ListTile(
+                                  title: Text(
+                                    truncateText(post.title, 10),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    ListTile(
-                                      title: InkWell(
-                                        onTap: () {
-                                          _viewPostDetails(posts[startIndex]);
-                                        },
-                                        child: Text(
-                                          truncateText(
-                                              posts[startIndex].title, 10),
-                                        ),
-                                      ),
-                                      subtitle: InkWell(
-                                        onTap: () {
-                                          _viewPostDetails(posts[startIndex]);
-                                        },
-                                        child: Text(
-                                          posts[startIndex].files.isNotEmpty
-                                              ? truncateText(
-                                                  posts[startIndex].description,
-                                                  10)
-                                              : "",
-                                        ),
-                                      ),
-                                    ),
-                                    posts[startIndex].files.isNotEmpty
-                                        ? AddFileWidget(
-                                            files: posts[startIndex]
-                                                .files
-                                                .map((e) => File(e))
-                                                .toList())
-                                        : InkWell(
-                                            onTap: () {
-                                              _viewPostDetails(
-                                                  posts[startIndex]);
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.all(10.0),
-                                              child: Text(truncateText(
-                                                  posts[startIndex].description,
-                                                  300)),
-                                            ),
-                                          )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            if (endIndex < posts.length)
-                              Expanded(
-                                flex: 0,
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.5 -
-                                          4,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.4,
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        posts[endIndex].username,
-                                        style: TextStyle(
-                                          color:
-                                              AppTheme.getTheme().primaryColor,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      ListTile(
-                                        title: InkWell(
-                                          onTap: () {
-                                            _viewPostDetails(posts[endIndex]);
-                                          },
-                                          child: Text(
-                                            truncateText(
-                                                posts[endIndex].title, 10),
-                                          ),
-                                        ), // Adjust the length as needed
-                                        subtitle: Text(
-                                          posts[startIndex].files.isNotEmpty
-                                              ? truncateText(
-                                                  posts[endIndex].description,
-                                                  10)
-                                              : "",
-                                        ),
-                                      ),
-                                      posts[endIndex].files.isNotEmpty
-                                          ? AddFileWidget(
-                                              files: posts[endIndex]
-                                                  .files
-                                                  .map((e) => File(e))
-                                                  .toList())
-                                          : InkWell(
-                                              onTap: () {
-                                                _viewPostDetails(
-                                                    posts[endIndex]);
-                                              },
-                                              child: Container(
-                                                padding: EdgeInsets.all(10.0),
-                                                child: Text(truncateText(
-                                                    posts[endIndex].description,
-                                                    300)),
-                                              ),
-                                            )
-                                    ],
+                                  ),
+                                  subtitle: Text(
+                                    truncateText(post.description, 10),
                                   ),
                                 ),
-                              ),
-                          ],
+                              ],
+                            ),
+                          ),
                         );
                       },
                     ),

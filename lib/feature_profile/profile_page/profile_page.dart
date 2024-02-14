@@ -77,7 +77,6 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile Page'),
         actions: [
           IconButton(
             icon: Icon(Icons.exit_to_app),
@@ -105,28 +104,28 @@ class _ProfilePageState extends State<ProfilePage> {
               );
             } else {
               List<PostEntity> posts = snapshot.data!;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Top part for profile name and photo
-                  Container(
-                    padding: EdgeInsets.all(16),
+              return CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
                     child: InkWell(
                       onTap: _changeProfilePicture,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          profilePicture.isNotEmpty
-                              ? CircleAvatar(
-                                  radius: 50,
-                                  backgroundImage:
-                                      FileImage(File(profilePicture)),
-                                )
-                              : CircleAvatar(
-                                  radius: 50, child: Icon(Icons.person)),
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            child: profilePicture.isNotEmpty
+                                ? CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage:
+                                        FileImage(File(profilePicture)),
+                                  )
+                                : CircleAvatar(
+                                    radius: 50, child: Icon(Icons.person)),
+                          ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.04,
+                            height: MediaQuery.of(context).size.height * 0.02,
                           ),
                           Text(
                             '${username}',
@@ -135,128 +134,75 @@ class _ProfilePageState extends State<ProfilePage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: (posts.length / 2).ceil(),
-                      itemBuilder: (context, index) {
-                        int startIndex = index * 2;
-                        int endIndex = (index * 2) + 1;
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        int startIndex = index * 3;
+                        int endIndex = startIndex + 2;
+
+                        // Ensure endIndex does not exceed the length of the posts list
+                        if (endIndex >= posts.length) {
+                          endIndex = posts.length - 1;
+                        }
+
                         return Row(
-                          children: [
-                            Expanded(
-                              flex: 0,
-                              child: Container(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.5 - 4,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: Column(
-                                  children: [
-                                    ListTile(
-                                      title: InkWell(
-                                        onTap: () {
-                                          _viewPostDetails(posts[startIndex]);
-                                        },
-                                        child: Text(
-                                          truncateText(
-                                              posts[startIndex].title, 10),
-                                        ),
-                                      ),
-                                      subtitle: InkWell(
-                                        onTap: () {
-                                          _viewPostDetails(posts[startIndex]);
-                                        },
-                                        child: Text(
-                                          posts[startIndex].files.isNotEmpty
-                                              ? truncateText(
-                                                  posts[startIndex].description,
-                                                  10)
-                                              : "",
-                                        ),
-                                      ),
-                                    ),
-                                    posts[startIndex].files.isNotEmpty
-                                        ? AddFileWidget(
-                                            files: posts[startIndex]
-                                                .files
-                                                .map((e) => File(e))
-                                                .toList())
-                                        : InkWell(
-                                            onTap: () {
-                                              _viewPostDetails(
-                                                  posts[startIndex]);
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.all(10.0),
-                                              child: Text(truncateText(
-                                                  posts[startIndex].description,
-                                                  300)),
-                                            ),
-                                          )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            if (endIndex < posts.length)
-                              Expanded(
-                                flex: 0,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: List.generate(
+                            endIndex - startIndex + 1,
+                            (i) {
+                              int postIndex = startIndex + i;
+                              return InkWell(
+                                onTap: () {
+                                  _viewPostDetails(posts[postIndex]);
+                                },
                                 child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.5 -
-                                          4,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.4,
+                                  width: MediaQuery.of(context).size.width / 3,
                                   child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
                                     children: [
+                                      if (posts[postIndex].files.isNotEmpty)
+                                        Image.file(
+                                          File(posts[postIndex].files.first),
+                                          fit: BoxFit.cover,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.3,
+                                        ),
                                       ListTile(
-                                        title: InkWell(
-                                          onTap: () {
-                                            _viewPostDetails(posts[endIndex]);
-                                          },
-                                          child: Text(
-                                            truncateText(
-                                                posts[endIndex].title, 10),
-                                          ),
-                                        ), // Adjust the length as needed
+                                        title: Text(
+                                          truncateText(
+                                              posts[postIndex].title, 10),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                         subtitle: Text(
-                                          posts[startIndex].files.isNotEmpty
+                                          posts[postIndex]
+                                                  .description
+                                                  .isNotEmpty
                                               ? truncateText(
-                                                  posts[endIndex].description,
+                                                  posts[postIndex].description,
                                                   10)
                                               : "",
                                         ),
                                       ),
-                                      posts[endIndex].files.isNotEmpty
-                                          ? AddFileWidget(
-                                              files: posts[endIndex]
-                                                  .files
-                                                  .map((e) => File(e))
-                                                  .toList())
-                                          : InkWell(
-                                              onTap: () {
-                                                _viewPostDetails(
-                                                    posts[endIndex]);
-                                              },
-                                              child: Container(
-                                                padding: EdgeInsets.all(10.0),
-                                                child: Text(truncateText(
-                                                    posts[endIndex].description,
-                                                    300)),
-                                              ),
-                                            )
                                     ],
                                   ),
                                 ),
-                              ),
-                          ],
+                              );
+                            },
+                          ),
                         );
                       },
+                      childCount: (posts.length / 3).ceil(),
                     ),
                   ),
                 ],
