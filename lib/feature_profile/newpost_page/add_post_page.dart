@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:io';
 import 'dart:async';
 import 'package:NoteIt/feature_profile/newpost_page/file_widget.dart';
 import 'package:NoteIt/feature_profile/profile_page/profile_page.dart';
@@ -9,10 +8,11 @@ import 'package:NoteIt/core/constants/constants.dart';
 import 'package:NoteIt/main.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:mime/mime.dart';
 import '../../config/theme/app_theme.dart';
 
 class AddPost extends StatefulWidget {
-  const AddPost({super.key});
+  const AddPost({Key? key});
 
   @override
   State<AddPost> createState() => _AddPostState();
@@ -21,7 +21,7 @@ class AddPost extends StatefulWidget {
 class _AddPostState extends State<AddPost> {
   String _title = '';
   String _body = '';
-  List<File> _files = [];
+  List<String> _files = [];
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,7 @@ class _AddPostState extends State<AddPost> {
                       username: username,
                       title: _title,
                       description: _body,
-                      files: _files.map((file) => file.path).toList(),
+                      files: _files,
                     );
                     isarService.addPost(post);
                     Navigator.pop(context);
@@ -128,11 +128,30 @@ class _AddPostState extends State<AddPost> {
   Future addFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
+      type: FileType.custom,
+      allowedExtensions: [
+        'jpg',
+        'jpeg',
+        'png',
+        'gif',
+        'pdf',
+        'doc',
+        'docx',
+        'txt'
+      ],
     );
 
     if (result != null) {
       setState(() {
-        _files.addAll(result.paths.map((path) => File(path!)));
+        _files.addAll(result.paths.where((path) {
+          String? mimeType = lookupMimeType(path!);
+          if (mimeType != null) {
+            return mimeType.startsWith('image/') ||
+                mimeType == 'application/pdf' ||
+                mimeType == 'text/plain';
+          }
+          return false;
+        }).map((path) => path!));
       });
     } else {
       // User canceled the picker

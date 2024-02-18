@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:io';
-import 'dart:async';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:image/image.dart' as img;
-import 'package:carousel_slider/carousel_slider.dart';
 
 class AddFileWidget extends StatelessWidget {
-  final List<File> files;
+  final List<String> files;
 
   AddFileWidget({required this.files});
 
-  void _showFullScreenImage(BuildContext context, File file, int index) {
+  void _showFullScreenImage(BuildContext context, String file, int index) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) =>
@@ -33,28 +29,31 @@ class AddFileWidget extends StatelessWidget {
       ),
       items: files
           .map(
-            (file) => isImage(file)
-                ? GestureDetector(
-                    onTap: () => _showFullScreenImage(
-                        context, file, files.indexOf(file)),
-                    child: Image.file(
-                      file,
+            (file) => GestureDetector(
+              onTap: () =>
+                  _showFullScreenImage(context, file, files.indexOf(file)),
+              child: FutureBuilder<bool>(
+                future: isImage(file),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data!) {
+                    return Image.file(
+                      File(file), // Convert file path to File object
                       fit: BoxFit.cover,
-                    ),
-                  )
-                : GestureDetector(
-                    onTap: () => _showFullScreenImage(
-                        context, file, files.indexOf(file)),
-                    child: Container(
+                    );
+                  } else {
+                    return Container(
                       color: Colors.grey[300],
                       child: Center(
                         child: Text(
-                          file.path.split('/').last,
+                          file.split('/').last, // Extract file name from path
                           style: TextStyle(fontSize: 16.0),
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  }
+                },
+              ),
+            ),
           )
           .toList(),
     );
@@ -62,7 +61,7 @@ class AddFileWidget extends StatelessWidget {
 }
 
 class FullScreenImage extends StatelessWidget {
-  final List<File> allFiles;
+  final List<String> allFiles;
   final int initialIndex;
 
   FullScreenImage({required this.allFiles, required this.initialIndex});
@@ -78,28 +77,12 @@ class FullScreenImage extends StatelessWidget {
             builder: (context, index) {
               final currentFile = allFiles[index];
 
-              if (isImage(currentFile)) {
-                return PhotoViewGalleryPageOptions(
-                  imageProvider: FileImage(currentFile),
-                  minScale: PhotoViewComputedScale.contained,
-                  maxScale: PhotoViewComputedScale.covered * 2,
-                );
-              } else {
-                // Handle non-image files by returning a placeholder
-                return PhotoViewGalleryPageOptions.customChild(
-                  child: Container(
-                    color: Colors.grey[300],
-                    child: Center(
-                      child: Text(
-                        currentFile.path.split('/').last,
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    ),
-                  ),
-                  minScale: PhotoViewComputedScale.contained,
-                  maxScale: PhotoViewComputedScale.covered * 2,
-                );
-              }
+              return PhotoViewGalleryPageOptions(
+                imageProvider: FileImage(
+                    File(currentFile)), // Convert file path to File object
+                minScale: PhotoViewComputedScale.contained,
+                maxScale: PhotoViewComputedScale.covered * 2,
+              );
             },
             scrollPhysics: BouncingScrollPhysics(),
             backgroundDecoration: BoxDecoration(
@@ -117,9 +100,11 @@ class FullScreenImage extends StatelessWidget {
   }
 }
 
-bool isImage(File file) {
+Future<bool> isImage(String file) async {
   try {
-    final image = img.decodeImage(file.readAsBytesSync());
+    final bytes =
+        await File(file).readAsBytes(); // Convert file path to File object
+    final image = await decodeImageFromList(bytes);
     return image != null;
   } catch (e) {
     return false;

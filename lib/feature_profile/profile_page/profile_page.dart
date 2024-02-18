@@ -35,8 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
       File file = File(result.files.single.path!);
 
       // Update credentials
-      UserEntity credentials = UserEntity(username, password, file.path);
-      await isarService.saveCredentials(credentials);
+      await isarService.updateProfilePhoto(file);
 
       setState(() {
         profilePicture = file.path;
@@ -99,8 +98,49 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Text('Error: ${snapshot.error}'),
               );
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(
-                child: Text('No posts available.'),
+              return CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: InkWell(
+                      onTap: _changeProfilePicture,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            child: profilePicture.isNotEmpty
+                                ? CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage:
+                                        FileImage(File(profilePicture)),
+                                  )
+                                : CircleAvatar(
+                                    radius: 50, child: Icon(Icons.person)),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          Text(
+                            '${username}',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Center(
+                      child: Text('No posts available.'),
+                    ),
+                  ),
+                ],
               );
             } else {
               List<PostEntity> posts = snapshot.data!;

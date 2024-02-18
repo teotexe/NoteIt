@@ -80,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                           onChanged: (index) {
                             setState(() {
                               selectedAccountIndex = index!;
+                              getAccountItems();
                             });
                           },
                           items: snapshot.data!,
@@ -218,6 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                           await isarService.getCredentials(
                               credentialsList[selectedAccountIndex].id);
                       if (credentials != null) {
+                        ID = credentials.id;
                         username = credentials.username;
                         password = credentials.password;
                         profilePicture = credentials.profilePicture;

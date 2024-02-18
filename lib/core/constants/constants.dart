@@ -9,6 +9,7 @@ late Future<List<PostEntity>> userPostsFuture;
 late Future<List<PostEntity>> postsFuture;
 
 // Credentials
+int ID = 0;
 String username = '';
 String password = '';
 String profilePicture = '';

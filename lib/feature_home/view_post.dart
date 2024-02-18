@@ -14,11 +14,6 @@ class ViewPostPage extends StatelessWidget {
 
   void _copyToClipboard(BuildContext context, String text) {
     Clipboard.setData(ClipboardData(text: text));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Description copied to clipboard'),
-      ),
-    );
   }
 
   // Future<void> _showConfirmationDialog(BuildContext context) async {
@@ -83,7 +78,7 @@ class ViewPostPage extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
             post.files.isNotEmpty
-                ? AddFileWidget(files: post.files.map((e) => File(e)).toList())
+                ? AddFileWidget(files: post.files)
                 : Container(),
           ],
         ),

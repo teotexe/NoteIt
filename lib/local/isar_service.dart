@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:isar/isar.dart';
 import 'package:NoteIt/core/constants/constants.dart';
 import 'package:NoteIt/entities/post.dart';
@@ -124,6 +126,22 @@ class IsarService {
     await isar.writeTxn(() async {
       await isar.userEntitys.put(credentials);
     });
+  }
+
+  // Update profile photo
+  Future<void> updateProfilePhoto(File newPhoto) async {
+    final isar = await this.isar;
+    UserEntity? user = await getUser();
+
+    if (user != null) {
+      await isar.writeTxn(() async {
+        // Save the new profile photo path or URL to the user entity
+        user.profilePicture =
+            newPhoto.path; // Replace with the appropriate field in UserEntity
+
+        await isar.userEntitys.put(user);
+      });
+    }
   }
 
   // Verify credentials
