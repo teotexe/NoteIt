@@ -108,16 +108,19 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            padding: EdgeInsets.all(10),
-                            child: profilePicture.isNotEmpty
-                                ? CircleAvatar(
-                                    radius: 50,
-                                    backgroundImage:
-                                        FileImage(File(profilePicture)),
-                                  )
-                                : CircleAvatar(
-                                    radius: 50, child: Icon(Icons.person)),
-                          ),
+                              padding: EdgeInsets.all(10),
+                              child: profilePicture.isNotEmpty
+                                  ? CircleAvatar(
+                                      radius: 50,
+                                      backgroundImage:
+                                          FileImage(File(profilePicture)),
+                                    )
+                                  : CircleAvatar(
+                                      backgroundColor:
+                                          AppTheme.getTheme().primaryColor,
+                                      radius: 50,
+                                      child: Icon(Icons.person,
+                                          color: Colors.white))),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
@@ -162,7 +165,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                         FileImage(File(profilePicture)),
                                   )
                                 : CircleAvatar(
-                                    radius: 50, child: Icon(Icons.person)),
+                                    backgroundColor:
+                                        AppTheme.getTheme().primaryColor,
+                                    radius: 50,
+                                    child: Icon(Icons.person,
+                                        color: Colors.white)),
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,

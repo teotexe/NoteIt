@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:isar/isar.dart';
 import 'package:NoteIt/core/constants/constants.dart';
 import 'package:NoteIt/entities/post.dart';

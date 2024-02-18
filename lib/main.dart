@@ -12,9 +12,6 @@ import 'package:NoteIt/core/constants/constants.dart';
 import 'local/isar_service.dart';
 
 void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // credentialsList = [];
-  // isarService.cleanDB();
   runApp(MyApp());
 }
 
@@ -34,23 +31,37 @@ class AppState extends StatefulWidget {
 }
 
 class _AppStateState extends State<AppState> {
+  PageController _pageController = PageController(initialPage: 0);
   int _currentIndex = 0; // Track the current index of the bottom navigation bar
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _getBody(
-          _currentIndex), // Add this line to display the corresponding body based on the selected tab
-
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        children: <Widget>[
+          HomePage(),
+          SearchPage(),
+          RankingPage(),
+          FavoritesPage(),
+          ProfilePage(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         onTap: (index) {
-          // Handle navigation when a bottom navigation bar item is tapped
           setState(() {
             _currentIndex = index;
+            _pageController
+                .jumpToPage(index); // Set page directly without animation
           });
         },
         items: const [
@@ -65,23 +76,5 @@ class _AppStateState extends State<AppState> {
         ],
       ),
     );
-  }
-
-  // Function to return the corresponding body based on the selected tab
-  Widget _getBody(int currentIndex) {
-    switch (currentIndex) {
-      case 0:
-        return HomePage();
-      case 1:
-        return SearchPage();
-      case 2:
-        return RankingPage();
-      case 3:
-        return FavoritesPage();
-      case 4:
-        return ProfilePage();
-      default:
-        return Container();
-    }
   }
 }

@@ -21,12 +21,14 @@ class AppTheme {
       buttonTheme: ButtonThemeData(
         buttonColor: myCustomColor,
         textTheme: ButtonTextTheme.primary,
+        colorScheme: ColorScheme.light(primary: Colors.white),
       ),
       iconTheme: const IconThemeData(
         color: Color.fromARGB(255, 134, 11, 11),
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: Color.fromARGB(255, 134, 11, 11),
+        foregroundColor: Colors.white, // Setting text color for FAB to white
       ),
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
@@ -39,6 +41,10 @@ class AppTheme {
         style: ButtonStyle(
           backgroundColor: MaterialStateColor.resolveWith(
             (states) => myCustomColor,
+          ),
+          // Setting text color for elevated buttons to white
+          foregroundColor: MaterialStateColor.resolveWith(
+            (states) => Colors.white,
           ),
         ),
       ),

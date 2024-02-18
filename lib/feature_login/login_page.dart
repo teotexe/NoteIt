@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:NoteIt/config/theme/app_theme.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:NoteIt/core/constants/constants.dart';
@@ -84,6 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                             });
                           },
                           items: snapshot.data!,
+                          style: TextStyle(color: AppTheme.myCustomColor),
                         );
                       }
                     },
@@ -114,14 +116,14 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       if (currProfilePicture.isNotEmpty)
                         CircleAvatar(
-                          radius: 50,
+                          radius: 15,
                           backgroundImage: FileImage(File(currProfilePicture)),
                         )
                       else
                         const CircleAvatar(
-                          radius: 50,
-                          child: Icon(Icons.person),
-                        ),
+                            backgroundColor: Color.fromARGB(255, 134, 11, 11),
+                            radius: 15,
+                            child: Icon(Icons.person, color: Colors.white)),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.04,
                       ),
@@ -271,9 +273,9 @@ class _LoginPageState extends State<LoginPage> {
                           FileImage(File(credentialsList[i].profilePicture)),
                     )
                   : const CircleAvatar(
+                      backgroundColor: Color.fromARGB(255, 134, 11, 11),
                       radius: 15,
-                      child: Icon(Icons.person),
-                    ),
+                      child: Icon(Icons.person, color: Colors.white)),
               const SizedBox(width: 8),
               Text('${credentialsList[i].username}'),
             ],
